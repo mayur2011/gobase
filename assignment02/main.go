@@ -56,5 +56,10 @@ func main() {
 		Name: "TPM",
 	}
 	controller.Add(customer)
+	customer = domain.Customer{
+		ID:   "CUST105",
+		Name: "TPM",
+	}
+	controller.Add(customer)
 	controller.GetAll()
 }
