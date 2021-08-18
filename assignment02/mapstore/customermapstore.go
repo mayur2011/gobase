@@ -31,3 +31,13 @@ func (ms *MapStore) Create(customer domain.Customer) error {
 	log.Println("customer is added")
 	return nil
 }
+
+func (ms *MapStore) GetAll() ([]domain.Customer, error) {
+	var c []domain.Customer
+	for k, v := range ms.store {
+		fmt.Println(k, "", v)
+		c = append(c, ms.store[k])
+	}
+	log.Println("???")
+	return c, nil
+}
