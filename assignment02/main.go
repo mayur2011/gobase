@@ -57,7 +57,7 @@ func main() {
 	}
 	controller.Add(customer)
 	customer = domain.Customer{
-		ID:   "CUST105",
+		ID:   "CUST1055",
 		Name: "TPM",
 	}
 	controller.Add(customer)
