@@ -12,13 +12,22 @@ type CustomerController struct {
 	store domain.CustomerStore
 }
 
-func (cc CustomerController) Add(c domain.Customer) {
-	err := cc.store.Create(c)
+func (cc CustomerController) Add(customer domain.Customer) {
+	err := cc.store.Create(customer)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 	fmt.Println("New Customer has been added")
+}
+
+func (cc CustomerController) Update(id string, customer domain.Customer) {
+	err := cc.store.Update(id, customer)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Customer is updated successfully")
 }
 
 func (cc CustomerController) GetById(id string) {
@@ -46,7 +55,7 @@ func main() {
 	customer := domain.Customer{
 		ID:        "CUST101",
 		Name:      "JPM",
-		Email:     "customer01@gmail.com",
+		Email:     "c01@gmail.com",
 		Country:   "India",
 		MobileNum: 1113612345,
 	}
@@ -59,7 +68,6 @@ func main() {
 	}
 	controller.Add(customer)
 	controller.Add(customer)
-	controller.GetAll()
 	customer = domain.Customer{
 		ID:        "CUST103",
 		Name:      "TPM",
@@ -69,8 +77,16 @@ func main() {
 	}
 	controller.Add(customer)
 	controller.GetAll()
-	controller.GetById("CUST102")
+	u_customer := domain.Customer{
+		ID:        "CUST101",
+		Name:      "Robin",
+		Email:     "c02@hm.com",
+		Country:   "Australia",
+		MobileNum: 1113612345,
+	}
+	controller.Update(u_customer.ID, u_customer)
 	controller.GetById("CUST103")
+	controller.GetAll()
 }
 
 /*
