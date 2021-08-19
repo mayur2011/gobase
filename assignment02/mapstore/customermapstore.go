@@ -3,7 +3,6 @@ package mapstore
 import (
 	"fmt"
 	"gobase/assignment02/domain"
-	"log"
 )
 
 //struct mapstore to implement CustomerStore interface
@@ -11,8 +10,7 @@ type MapStore struct {
 	store map[string]domain.Customer //An in-memory store in a map
 }
 
-//factory methods gives a new instance of MapStore
-//this is for caller packages, not for mapstore
+//factory methods gives a new instance of MapStore, this is for caller packages, not for mapstore
 func NewMapStore() *MapStore {
 	return &MapStore{store: make(map[string]domain.Customer)}
 }
@@ -24,19 +22,16 @@ func (ms *MapStore) isCustomerExists(id string) bool {
 }
 
 func (ms *MapStore) Create(customer domain.Customer) error {
-	cust_id := customer.ID
-	if ms.isCustomerExists(cust_id) {
+	if ms.isCustomerExists(customer.ID) {
 		return fmt.Errorf("customer already exists in mapstore")
 	}
 	ms.store[customer.ID] = customer
-	log.Println("customer entry is created in mapstore")
 	return nil
 }
 
 func (ms *MapStore) Update(id string, customer domain.Customer) error {
 	if ms.isCustomerExists(id) {
 		ms.store[id] = customer
-		log.Println("customer entry in mapstore is updated")
 		return nil
 	}
 	return fmt.Errorf("update failed, customer id does not exist")
@@ -45,7 +40,6 @@ func (ms *MapStore) Update(id string, customer domain.Customer) error {
 func (ms *MapStore) Delete(id string) error {
 	if ms.isCustomerExists(id) {
 		delete(ms.store, id)
-		log.Println("customer entry in mapstore is deleted")
 		return nil
 	}
 	return fmt.Errorf("delete failed, customer id does not exist")
@@ -60,11 +54,9 @@ func (ms *MapStore) GetById(id string) (domain.Customer, error) {
 }
 
 func (ms *MapStore) GetAll() ([]domain.Customer, error) {
-	log.Println("return all customer records from mapstore")
 	var c []domain.Customer
-	for k := range ms.store {
-		//fmt.Println(k, "", v)
-		c = append(c, ms.store[k])
+	for _, v := range ms.store {
+		c = append(c, v)
 	}
 	return c, nil
 }

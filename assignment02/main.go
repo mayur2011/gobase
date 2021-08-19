@@ -6,7 +6,7 @@ import (
 	"gobase/assignment02/mapstore"
 )
 
-/* Explicit dependency and declarative programming that hides dependent logic */
+// Explicit dependency and declarative programming that hides dependent logic
 type CustomerController struct {
 	store domain.CustomerStore
 }
@@ -26,7 +26,7 @@ func (cc CustomerController) Update(id string, customer domain.Customer) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("Customer is updated successfully")
+	fmt.Println("Customer info is updated successfully")
 }
 
 func (cc CustomerController) Delete(id string) {
@@ -34,7 +34,7 @@ func (cc CustomerController) Delete(id string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Customer is delete successfully")
+	fmt.Println("Customer info is deleted successfully")
 }
 
 func (cc CustomerController) GetById(id string) {
@@ -88,12 +88,12 @@ func main() {
 	u_customer := domain.Customer{
 		ID:        "CUST101",
 		Name:      "Robin",
-		Email:     "c02@hm.com",
+		Email:     "robin@hm.com",
 		Country:   "Australia",
 		MobileNum: 1113612345,
 	}
 	controller.Update(u_customer.ID, u_customer)
-	controller.GetById("CUST103")
+	controller.GetById("CUST101")
 	controller.Delete("CUST103")
 	controller.GetAll()
 }
