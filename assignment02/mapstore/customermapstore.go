@@ -33,12 +33,13 @@ func (ms *MapStore) Create(customer domain.Customer) error {
 	return nil
 }
 
-func (ms *MapStore) Update(id string) error {
+func (ms *MapStore) Update(id string, customer domain.Customer) error {
 	if ms.isCustomerExists(id) {
-
+		ms.store[id] = customer
 		log.Println("customer is updated")
+		return nil
 	}
-	return fmt.Errorf("customer does not exist for this id")
+	return fmt.Errorf("update failed, customer does not exist for this id")
 }
 
 func (ms *MapStore) GetById(id string) (domain.Customer, error) {
