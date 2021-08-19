@@ -55,15 +55,14 @@ func (ms *MapStore) GetById(id string) (domain.Customer, error) {
 
 func (ms *MapStore) GetAll() ([]domain.Customer, error) {
 	var c []domain.Customer
-	for _, v := range ms.store {
-		c = append(c, v)
+	for k := range ms.store {
+		c = append(c, ms.store[k])
 	}
 	return c, nil
 }
 
 /*
 Questions:
-1. isCustomerExists function should accept a key or customer object ?
-2. is it okay when GetById func (else part) is return empty customer interface ?
-3.
+1. is it okay for GetById func to return empty customer interface (line no. 53) ?
+2.
 */
