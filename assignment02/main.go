@@ -58,6 +58,7 @@ func main() {
 		MobileNum: 1213612345,
 	}
 	controller.Add(customer)
+	controller.Add(customer)
 	controller.GetAll()
 	customer = domain.Customer{
 		ID:        "CUST103",
