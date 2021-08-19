@@ -6,8 +6,7 @@ import (
 	"gobase/assignment02/mapstore"
 )
 
-/* Explicit dependency and declarative programming
-that hides dependent logic */
+/* Explicit dependency and declarative programming that hides dependent logic */
 type CustomerController struct {
 	store domain.CustomerStore
 }
@@ -30,6 +29,14 @@ func (cc CustomerController) Update(id string, customer domain.Customer) {
 	fmt.Println("Customer is updated successfully")
 }
 
+func (cc CustomerController) Delete(id string) {
+	err := cc.store.Delete(id)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("Customer is delete successfully")
+}
+
 func (cc CustomerController) GetById(id string) {
 	customer, err := cc.store.GetById(id)
 	if err != nil {
@@ -49,6 +56,7 @@ func (cc CustomerController) GetAll() {
 }
 
 func main() {
+
 	controller := CustomerController{ //Facade
 		store: mapstore.NewMapStore(), //inject the dependency
 	}
@@ -86,10 +94,12 @@ func main() {
 	}
 	controller.Update(u_customer.ID, u_customer)
 	controller.GetById("CUST103")
+	controller.Delete("CUST103")
 	controller.GetAll()
 }
 
 /*
+Questions:
 1. Does CustomerController have isExistMethod to check something ?
 Ans:
 
