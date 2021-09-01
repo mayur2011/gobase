@@ -22,7 +22,8 @@ func (cc CustomerController) PostCustomer(w http.ResponseWriter, r *http.Request
 	}
 	err = cc.Store.Create(customer)
 	if err != nil {
-		fmt.Println("Failed to create the customer", err)
+		//fmt.Println(err.Error())
+		return nil, http.StatusBadRequest, err
 	}
 	return customer, http.StatusCreated, nil
 }
@@ -30,7 +31,7 @@ func (cc CustomerController) PostCustomer(w http.ResponseWriter, r *http.Request
 func (cc CustomerController) GetAllCustomers(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
 	customers, err := cc.Store.GetAllCustomers()
 	if err != nil {
-		fmt.Println("Failed to fetch all customers", err)
+		return nil, http.StatusOK, fmt.Errorf("failed to fetch all customers")
 	}
 	return customers, http.StatusOK, nil
 }
@@ -40,7 +41,7 @@ func (cc CustomerController) GetCustomerById(w http.ResponseWriter, r *http.Requ
 	id := vars["id"]
 	customer, err := cc.Store.GetCustomerById(id)
 	if err != nil {
-		fmt.Println("Failed to get Customer info", err)
+		return nil, http.StatusOK, fmt.Errorf("failed to get Customer info")
 	}
 	return customer, http.StatusOK, nil
 }
@@ -54,13 +55,12 @@ func (cc CustomerController) UpdateCustomer(w http.ResponseWriter, r *http.Reque
 		return nil, http.StatusBadRequest, fmt.Errorf("unable to decode JSON request body")
 	}
 	err = cc.Store.Update(id, customer)
-	return customer, http.StatusAccepted, err
+	return nil, http.StatusAccepted, err
 }
 
 func (cc CustomerController) DeleteCustomer(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
-	var customer domain.Customer
 	vars := mux.Vars(r)
 	id := vars["id"]
 	err := cc.Store.Delete(id)
-	return customer, http.StatusAccepted, err
+	return nil, http.StatusAccepted, err
 }

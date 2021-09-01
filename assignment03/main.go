@@ -12,7 +12,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8000" //localhost
+		port = "8000"
 	}
 	fmt.Println("Launching the app, visit localhost:8000/")
 	err := http.ListenAndServe(":"+port, router)
@@ -20,8 +20,3 @@ func main() {
 		fmt.Print(err)
 	}
 }
-
-/*
--- Need to change lowercase "store" attribute to Camel case otherwise --store will be accessable
-
-*/
