@@ -44,3 +44,15 @@ func (cc CustomerController) GetCustomerById(w http.ResponseWriter, r *http.Requ
 	}
 	return customer, http.StatusOK, nil
 }
+
+func (cc CustomerController) UpdateCustomer(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
+	var customer domain.Customer
+	vars := mux.Vars(r)
+	id := vars["id"]
+	err := json.NewDecoder(r.Body).Decode(&customer)
+	if err != nil {
+		return nil, http.StatusBadRequest, fmt.Errorf("unable to decode JSON request body")
+	}
+	err = cc.Store.Update(id, customer)
+	return customer, http.StatusAccepted, err
+}

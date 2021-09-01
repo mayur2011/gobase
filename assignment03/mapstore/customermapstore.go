@@ -44,6 +44,10 @@ func (ms *MapStore) GetCustomerById(id string) (domain.Customer, error) {
 	return domain.Customer{}, fmt.Errorf("customer does not exist for this id")
 }
 
-// func (ms *MapStore) Update(id string, customer domain.Customer) error {
-
-// }
+func (ms *MapStore) Update(id string, customer domain.Customer) error {
+	if ms.isCustomerExists(id) {
+		ms.store[id] = customer
+		return nil
+	}
+	return fmt.Errorf("Customer does not exist for this id")
+}
