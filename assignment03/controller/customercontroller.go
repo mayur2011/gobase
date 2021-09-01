@@ -23,7 +23,7 @@ func (cc CustomerController) PostCustomer(w http.ResponseWriter, r *http.Request
 		fmt.Println("Failed to create the customer", err)
 	}
 	fmt.Println("Customer has been added")
-	return nil, http.StatusCreated, nil
+	return customer, http.StatusCreated, nil
 }
 
 func (handler CustomerController) GetAllCustomers(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
