@@ -26,8 +26,8 @@ func (cc CustomerController) PostCustomer(w http.ResponseWriter, r *http.Request
 	return customer, http.StatusCreated, nil
 }
 
-func (handler CustomerController) GetAllCustomers(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
-	customers, err := handler.Store.GetAllCustomers()
+func (cc CustomerController) GetAllCustomers(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
+	customers, err := cc.Store.GetAllCustomers()
 	if err != nil {
 		fmt.Println("Failed to fetch all customers", err)
 	}
