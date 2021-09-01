@@ -14,6 +14,7 @@ func SetCustomerRoutes(router *mux.Router) *mux.Router {
 	router.Handle("/customers", controller.ResponseHandler(customerController.GetAllCustomers)).Methods("GET")
 	router.Handle("/customers/{id}", controller.ResponseHandler(customerController.GetCustomerById)).Methods("GET")
 	router.Handle("/customer/{id}", controller.ResponseHandler(customerController.UpdateCustomer)).Methods("PUT")
+	router.Handle("/customer/{id}", controller.ResponseHandler(customerController.DeleteCustomer)).Methods("DELETE")
 	return router
 }
 

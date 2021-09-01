@@ -56,3 +56,11 @@ func (cc CustomerController) UpdateCustomer(w http.ResponseWriter, r *http.Reque
 	err = cc.Store.Update(id, customer)
 	return customer, http.StatusAccepted, err
 }
+
+func (cc CustomerController) DeleteCustomer(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
+	var customer domain.Customer
+	vars := mux.Vars(r)
+	id := vars["id"]
+	err := cc.Store.Delete(id)
+	return customer, http.StatusAccepted, err
+}

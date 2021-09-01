@@ -51,3 +51,11 @@ func (ms *MapStore) Update(id string, customer domain.Customer) error {
 	}
 	return fmt.Errorf("Customer does not exist for this id")
 }
+
+func (ms *MapStore) Delete(id string) error {
+	if ms.isCustomerExists(id) {
+		delete(ms.store, id)
+		return nil
+	}
+	return fmt.Errorf("Customer does not exist for this id")
+}
