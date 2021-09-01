@@ -10,8 +10,9 @@ import (
 func SetCustomerRoutes(router *mux.Router) *mux.Router {
 	customerStore := mapstore.NewMapStore()
 	customerController := controller.CustomerController{Store: customerStore}
-	router.Handle("/customer", controller.ResponseHandler(customerController.PostCustomer)).Methods("POST")
+	router.Handle("/customers", controller.ResponseHandler(customerController.PostCustomer)).Methods("POST")
 	router.Handle("/customers", controller.ResponseHandler(customerController.GetAllCustomers)).Methods("GET")
+	router.Handle("/customers/{id}", controller.ResponseHandler(customerController.GetCustomerById)).Methods("GET")
 	return router
 }
 

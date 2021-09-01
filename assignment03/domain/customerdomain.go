@@ -8,6 +8,6 @@ type CustomerStore interface {
 	Create(Customer) error
 	//Update(string, Customer) error
 	//Delete(string) error
-	//GetCustomerByID(string) (Customer, error)
+	GetCustomerById(string) (Customer, error)
 	GetAllCustomers() ([]Customer, error)
 }
