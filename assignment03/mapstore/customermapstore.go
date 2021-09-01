@@ -9,8 +9,7 @@ type MapStore struct {
 	store map[string]domain.Customer
 }
 
-//Factory method gives a new instance of MapStore
-//Also this is for caller packages, not for mapstoer itself
+//Factory method gives a new instance of MapStore, Also this is for caller packages, not for mapstoer itself
 func NewMapStore() *MapStore {
 	return &MapStore{store: make(map[string]domain.Customer)}
 }

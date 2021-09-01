@@ -1,29 +1,24 @@
 package main
 
 import (
-	"gobase/assignment03/controller"
-	"gobase/assignment03/domain"
-	"gobase/assignment03/mapstore"
+	"fmt"
+	"gobase/assignment03/router"
+	"net/http"
+	"os"
 )
 
 func main() {
-	cc := controller.CustomerController{
-		Store: mapstore.NewMapStore(),
-	}
+	router := router.InitRoutes()
 
-	customer := domain.Customer{
-		ID:    "C101",
-		Name:  "Raju",
-		Email: "raju-tech@gnn.in",
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000" //localhost
 	}
-	cc.Add(customer)
-	customer = domain.Customer{
-		ID:    "C202",
-		Name:  "Maju",
-		Email: "maju-tech@gnn.in",
+	fmt.Println("Launching the app, visit localhost:8000/")
+	err := http.ListenAndServe(":"+port, router)
+	if err != nil {
+		fmt.Print(err)
 	}
-	cc.Add(customer)
-	cc.GetAllCustomers()
 }
 
 /*
