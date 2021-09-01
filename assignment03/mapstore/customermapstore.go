@@ -47,15 +47,17 @@ func (ms *MapStore) GetCustomerById(id string) (domain.Customer, error) {
 func (ms *MapStore) Update(id string, customer domain.Customer) error {
 	if ms.isCustomerExists(id) {
 		ms.store[id] = customer
+		fmt.Println("Customer has been updated")
 		return nil
 	}
-	return fmt.Errorf("Customer does not exist for this id")
+	return fmt.Errorf("customer does not exist for this id")
 }
 
 func (ms *MapStore) Delete(id string) error {
 	if ms.isCustomerExists(id) {
 		delete(ms.store, id)
+		fmt.Println("Customer has been deleted")
 		return nil
 	}
-	return fmt.Errorf("Customer does not exist for this id")
+	return fmt.Errorf("customer does not exist for this id")
 }
