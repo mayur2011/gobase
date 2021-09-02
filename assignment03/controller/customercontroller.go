@@ -23,7 +23,7 @@ func (cc CustomerController) PostCustomer(w http.ResponseWriter, r *http.Request
 	err = cc.Store.Create(customer)
 	if err != nil {
 		//fmt.Println(err.Error())
-		return nil, http.StatusBadRequest, err
+		return nil, http.StatusInternalServerError, err
 	}
 	return customer, http.StatusCreated, nil
 }
@@ -55,6 +55,9 @@ func (cc CustomerController) UpdateCustomer(w http.ResponseWriter, r *http.Reque
 		return nil, http.StatusBadRequest, fmt.Errorf("unable to decode JSON request body")
 	}
 	err = cc.Store.Update(id, customer)
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
+	}
 	return nil, http.StatusAccepted, err
 }
 
@@ -62,5 +65,8 @@ func (cc CustomerController) DeleteCustomer(w http.ResponseWriter, r *http.Reque
 	vars := mux.Vars(r)
 	id := vars["id"]
 	err := cc.Store.Delete(id)
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
+	}
 	return nil, http.StatusAccepted, err
 }

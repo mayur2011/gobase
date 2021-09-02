@@ -29,7 +29,7 @@ func ResponseHandler(h func(http.ResponseWriter, *http.Request) (interface{}, in
 				fmt.Printf("Error from Handler: %s\n", err.Error())
 			}
 		} else {
-			fmt.Println("else", errorMsg)
+			//fmt.Println("else", errorMsg)
 			err = json.NewEncoder(w).Encode(response{Data: nil, Error: errorMsg})
 			if err != nil {
 				fmt.Printf("Error from Handler: %s\n", err.Error())
