@@ -34,3 +34,5 @@ func main() {
 		fmt.Print(err)
 	}
 }
+
+//{"FirstName":"John","LastName":" Bell","Email":"jb@hotmail.com"},{"FirstName":"Jonn","LastName":" Pod","Email":"jp0@gmail.com"}
