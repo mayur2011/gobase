@@ -17,7 +17,7 @@ func setUserRoutes() *mux.Router {
 	controller := controllers.UserController{
 		Store: userStore, //Injecting dependencies
 	}
-	//r.HandleFunc("/users", controller.GetUsers).Methods("POST")
+	r.HandleFunc("/users", controller.CreateUser).Methods("POST")
 	r.HandleFunc("/users", controller.GetUsers).Methods("GET")
 	return r
 }

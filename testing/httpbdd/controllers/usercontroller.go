@@ -22,7 +22,23 @@ func (handler UserController) GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Write(users)
 }
 
-// func (handler UserController) CreateUser(w http.ResponseWriter, r *http.Request){
-
-// 	data :=
-// }
+func (handler UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
+	var user domain.User
+	// decode the incoming request json/ User json
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	// Insert User entity into User Store
+	err = handler.Store.AddUser(user)
+	if err != nil {
+		if err == domain.ErrorEmailsExists {
+			w.WriteHeader(http.StatusBadRequest)
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+}
