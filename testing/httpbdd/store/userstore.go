@@ -9,6 +9,11 @@ type UserMapStore struct {
 	store map[string]domain.User
 }
 
+//Factory method gives a new instance of UserMapStore
+func NewUserMapStore() *UserMapStore {
+	return &UserMapStore{store: make(map[string]domain.User)}
+}
+
 func (ums *UserMapStore) userExists(email string) bool {
 	_, ok := ums.store[email]
 	return ok
