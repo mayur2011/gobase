@@ -1,20 +1,20 @@
 package router
 
 import (
-	"gobase/assignment03/controller"
-	"gobase/assignment03/mapstore"
+	"gobase/assignment04/controllers"
+	"gobase/assignment04/mapstore"
 
 	"github.com/gorilla/mux"
 )
 
 func SetCustomerRoutes(router *mux.Router) *mux.Router {
 	customerStore := mapstore.NewMapStore()
-	customerController := controller.CustomerController{Store: customerStore}
-	router.Handle("/customers", controller.ResponseHandler(customerController.PostCustomer)).Methods("POST")
-	router.Handle("/customers", controller.ResponseHandler(customerController.GetAllCustomers)).Methods("GET")
-	router.Handle("/customers/{id}", controller.ResponseHandler(customerController.GetCustomerById)).Methods("GET")
-	router.Handle("/customer/{id}", controller.ResponseHandler(customerController.UpdateCustomer)).Methods("PUT")
-	router.Handle("/customer/{id}", controller.ResponseHandler(customerController.DeleteCustomer)).Methods("DELETE")
+	customerController := controllers.CustomerController{Store: customerStore}
+	router.Handle("/customers", controllers.ResponseHandler(customerController.PostCustomer)).Methods("POST")
+	router.Handle("/customers", controllers.ResponseHandler(customerController.GetAllCustomers)).Methods("GET")
+	router.Handle("/customers/{id}", controllers.ResponseHandler(customerController.GetCustomerById)).Methods("GET")
+	router.Handle("/customer/{id}", controllers.ResponseHandler(customerController.UpdateCustomer)).Methods("PUT")
+	router.Handle("/customer/{id}", controllers.ResponseHandler(customerController.DeleteCustomer)).Methods("DELETE")
 	return router
 }
 

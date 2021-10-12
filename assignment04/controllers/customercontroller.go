@@ -1,4 +1,4 @@
-package controller
+package controllers
 
 import (
 	"encoding/json"
@@ -10,6 +10,7 @@ import (
 )
 
 type CustomerController struct {
+	// Dependencies and States
 	Store domain.CustomerStore
 }
 
