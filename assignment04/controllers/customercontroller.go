@@ -3,7 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"gobase/assignment03/domain"
+	"gobase/assignment04/domain"
 	"net/http"
 
 	"github.com/gorilla/mux"

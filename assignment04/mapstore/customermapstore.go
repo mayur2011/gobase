@@ -2,7 +2,7 @@ package mapstore
 
 import (
 	"fmt"
-	"gobase/assignment03/domain"
+	"gobase/assignment04/domain"
 )
 
 type MapStore struct {
