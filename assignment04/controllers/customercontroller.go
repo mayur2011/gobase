@@ -24,7 +24,7 @@ func (cc CustomerController) PostCustomer(w http.ResponseWriter, r *http.Request
 	err = cc.Store.Create(customer)
 	if err != nil {
 		//fmt.Println(err.Error())
-		return nil, http.StatusInternalServerError, err
+		return nil, http.StatusBadRequest, err
 	}
 	return customer, http.StatusCreated, nil
 }

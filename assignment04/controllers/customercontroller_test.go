@@ -71,7 +71,7 @@ var _ = Describe("CustomerController", func() {
 				Expect(err).NotTo(HaveOccurred())
 				w = httptest.NewRecorder()
 				r.ServeHTTP(w, req)
-				Expect(w.Code).To(Equal(500))
+				Expect(w.Code).To(Equal(400))
 			})
 		})
 	})
