@@ -2,6 +2,7 @@ package controllers_test
 
 import (
 	"encoding/json"
+	"fmt"
 	"gobase/assignment04/controllers"
 	"gobase/assignment04/domain"
 	"net/http"
@@ -56,6 +57,9 @@ var _ = Describe("CustomerController", func() {
 				w = httptest.NewRecorder()
 				r.ServeHTTP(w, req)
 				Expect(w.Code).To(Equal(201))
+				var customers []domain.Customer
+				json.Unmarshal(w.Body.Bytes(), &customers)
+				fmt.Println(customers)
 			})
 		})
 
@@ -76,6 +80,26 @@ var _ = Describe("CustomerController", func() {
 		})
 	})
 
+	Describe("Get a customer for given id", func() {
+		Context("Get a specified customer from data store", func() {
+			It("Should get a customer record", func() {
+				r.Handle("/customers/{id}", controllers.ResponseHandler(controller.GetCustomerById)).Methods("GET")
+				//custID := "CUST-201"
+				req, err := http.NewRequest("GET", "/customers/CUST-201", nil)
+				Expect(err).NotTo(HaveOccurred())
+				w = httptest.NewRecorder()
+				r.ServeHTTP(w, req)
+				Expect(w.Code).To(Equal(200))
+				/*
+					var customers interface{}
+					json.Unmarshal(w.Body.Bytes(), &customers)
+					fmt.Println(customers)
+					//Expect(customer.ID).To(Equal(custID))
+				*/
+			})
+		})
+	})
+
 })
 
 type FakeCustomerStore struct {
@@ -83,7 +107,12 @@ type FakeCustomerStore struct {
 }
 
 func (custStore *FakeCustomerStore) GetCustomerById(Id string) (domain.Customer, error) {
-	return domain.Customer{}, nil
+	for _, cust := range custStore.customerStore {
+		if cust.ID == Id {
+			return cust, nil
+		}
+	}
+	return domain.Customer{}, domain.ErrorIDExists
 }
 
 func (custStore *FakeCustomerStore) GetAllCustomers() ([]domain.Customer, error) {
