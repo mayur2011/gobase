@@ -57,9 +57,6 @@ var _ = Describe("CustomerController", func() {
 				w = httptest.NewRecorder()
 				r.ServeHTTP(w, req)
 				Expect(w.Code).To(Equal(201))
-				var customers []domain.Customer
-				json.Unmarshal(w.Body.Bytes(), &customers)
-				fmt.Println(customers)
 			})
 		})
 
@@ -84,18 +81,18 @@ var _ = Describe("CustomerController", func() {
 		Context("Get a specified customer from data store", func() {
 			It("Should get a customer record", func() {
 				r.Handle("/customers/{id}", controllers.ResponseHandler(controller.GetCustomerById)).Methods("GET")
-				//custID := "CUST-201"
-				req, err := http.NewRequest("GET", "/customers/CUST-201", nil)
+				custID := "CUST-201"
+				req, err := http.NewRequest("GET", "/customers/"+custID, nil)
 				Expect(err).NotTo(HaveOccurred())
 				w = httptest.NewRecorder()
 				r.ServeHTTP(w, req)
 				Expect(w.Code).To(Equal(200))
-				/*
-					var customers interface{}
-					json.Unmarshal(w.Body.Bytes(), &customers)
-					fmt.Println(customers)
-					//Expect(customer.ID).To(Equal(custID))
-				*/
+				//-- unmarshaling the api response --
+				var response response
+				json.Unmarshal(w.Body.Bytes(), &response)
+				fmt.Printf("%T", response.Data)
+				//Expect(customer.ID).To(Equal(custID))
+
 			})
 		})
 	})
@@ -104,6 +101,11 @@ var _ = Describe("CustomerController", func() {
 
 type FakeCustomerStore struct {
 	customerStore []domain.Customer
+}
+
+type response struct {
+	Data  interface{}
+	Error string
 }
 
 func (custStore *FakeCustomerStore) GetCustomerById(Id string) (domain.Customer, error) {

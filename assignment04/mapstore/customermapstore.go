@@ -22,6 +22,7 @@ func (ms *MapStore) isCustomerExists(id string) bool {
 func (ms *MapStore) Create(customer domain.Customer) error {
 	if ms.isCustomerExists(customer.ID) {
 		return fmt.Errorf("customer already exists")
+		//return domain.ErrorIDExists
 	}
 	ms.store[customer.ID] = customer
 	fmt.Println("Customer has been created")
