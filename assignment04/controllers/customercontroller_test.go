@@ -2,7 +2,6 @@ package controllers_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"gobase/assignment04/controllers"
 	"gobase/assignment04/domain"
 	"net/http"
@@ -90,9 +89,8 @@ var _ = Describe("CustomerController", func() {
 				//-- unmarshaling the api response --
 				var response response
 				json.Unmarshal(w.Body.Bytes(), &response)
-				fmt.Printf("%T", response.Data)
-				//Expect(customer.ID).To(Equal(custID))
-
+				tempData := response.Data.(map[string]interface{})
+				Expect(tempData["ID"]).To(Equal(custID))
 			})
 		})
 	})
