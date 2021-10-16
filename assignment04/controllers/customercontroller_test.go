@@ -78,9 +78,7 @@ var _ = Describe("CustomerController", func() {
 				Expect(tempData["ID"]).To(Equal(custID))
 			})
 		})
-	})
 
-	Describe("Get a Customer for given id which does not exist", func() {
 		Context("Get 0 record from data store", func() {
 			It("Should get a null customer record", func() {
 				r.Handle("/customers/{id}", controllers.ResponseHandler(controller.GetCustomerById)).Methods("GET")
@@ -173,11 +171,13 @@ func (custStore *FakeCustomerStore) Delete(Id string) error {
 func (custStore *FakeCustomerStore) Update(Id string, customer domain.Customer) error {
 	fmt.Println("update - getting called")
 	for n, cust := range custStore.customerStore {
+
 		if cust.ID == Id {
 			custStore.customerStore[n] = customer
-			fmt.Println(custStore.customerStore[n])
+			//fmt.Println(custStore.customerStore)
 			return nil
 		}
+
 	}
 	fmt.Println(custStore.customerStore)
 	return nil
