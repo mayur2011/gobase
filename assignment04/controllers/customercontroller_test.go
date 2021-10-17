@@ -2,7 +2,6 @@ package controllers_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"gobase/assignment04/controllers"
 	"gobase/assignment04/domain"
 	"net/http"
@@ -41,9 +40,6 @@ var _ = Describe("CustomerController", func() {
 				w = httptest.NewRecorder()
 				r.ServeHTTP(w, req)
 				Expect(w.Code).To(Equal(201))
-				var resp response
-				json.Unmarshal(w.Body.Bytes(), &resp)
-				fmt.Println("PostCustomer:\n", resp)
 			})
 		})
 
@@ -74,7 +70,7 @@ var _ = Describe("CustomerController", func() {
 				w = httptest.NewRecorder()
 				r.ServeHTTP(w, req)
 				Expect(w.Code).To(Equal(200))
-				//-- unmarshaling the api response --
+				//-- unmarshaling the api response for customer ID validation--
 				var resp response
 				json.Unmarshal(w.Body.Bytes(), &resp)
 				tempData := resp.Data.(map[string]interface{})
@@ -100,7 +96,7 @@ var _ = Describe("CustomerController", func() {
 
 	Describe("Update a Customer for given id", func() {
 		Context("Provide a valid customer data to update", func() {
-			It("Should update new customer info and get HTTP Status: 202", func() {
+			It("Should get a HTTP Status: 202", func() {
 				r.Handle("/customer/{id}", controllers.ResponseHandler(controller.UpdateCustomer)).Methods("PUT")
 				custID := "CUST-201"
 				customerJson := `{"ID" :"CUST-201", "Email": "shan_p02@yahoo.com", "Name": "Shan Prashad"}`
@@ -109,16 +105,21 @@ var _ = Describe("CustomerController", func() {
 				w := httptest.NewRecorder()
 				r.ServeHTTP(w, req)
 				Expect(w.Code).To(Equal(202))
-				var resp response
-				json.Unmarshal(w.Body.Bytes(), &resp)
-				fmt.Println("UpdateCustomer:\n", resp)
 			})
 		})
 	})
 
 	Describe("Delete a Customer for given id", func() {
 		Context("Provide a valid customer id to delete", func() {
-
+			It("Should get a HTTP Status: 202", func() {
+				r.Handle("/customer/{id}", controllers.ResponseHandler(controller.DeleteCustomer)).Methods("DELETE")
+				custID := "CUST-201"
+				req, err := http.NewRequest("DELETE", "/customer/"+custID, nil)
+				Expect(err).NotTo(HaveOccurred())
+				w := httptest.NewRecorder()
+				r.ServeHTTP(w, req)
+				Expect(w.Code).To(Equal(202))
+			})
 		})
 	})
 
@@ -165,7 +166,6 @@ func (custStore *FakeCustomerStore) GetAllCustomers() ([]domain.Customer, error)
 }
 
 func (custStore *FakeCustomerStore) Create(customer domain.Customer) error {
-	//fmt.Println("create - getting called")
 	for _, u := range custStore.customerStore {
 		if u.ID == customer.ID {
 			return domain.ErrorIDExists
@@ -176,9 +176,13 @@ func (custStore *FakeCustomerStore) Create(customer domain.Customer) error {
 }
 
 func (custStore *FakeCustomerStore) Delete(Id string) error {
-	// for _, cust := range custStore.customerStore {
-	// 	err := delete(custStore.customerStore.(map(string)domain.Customer{}), Id)
-	// }
+	tempStore := custStore
+	custStore = &FakeCustomerStore{}
+	for _, cust := range tempStore.customerStore {
+		if cust.ID != Id {
+			custStore.customerStore = append(custStore.customerStore, cust)
+		}
+	}
 	return nil
 }
 
@@ -186,10 +190,9 @@ func (custStore *FakeCustomerStore) Update(Id string, customer domain.Customer) 
 	for n, cust := range custStore.customerStore {
 		if cust.ID == Id {
 			custStore.customerStore[n] = customer
-			continue
+			return nil
 		}
 	}
-	fmt.Println(custStore.customerStore)
 	return nil
 }
 
