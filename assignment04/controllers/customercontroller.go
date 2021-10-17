@@ -48,6 +48,7 @@ func (cc CustomerController) GetCustomerById(w http.ResponseWriter, r *http.Requ
 }
 
 func (cc CustomerController) UpdateCustomer(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
+	//fmt.Println("update:Controller - getting called")
 	var customer domain.Customer
 	vars := mux.Vars(r)
 	id := vars["id"]

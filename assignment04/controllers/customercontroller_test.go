@@ -41,6 +41,9 @@ var _ = Describe("CustomerController", func() {
 				w = httptest.NewRecorder()
 				r.ServeHTTP(w, req)
 				Expect(w.Code).To(Equal(201))
+				var resp response
+				json.Unmarshal(w.Body.Bytes(), &resp)
+				fmt.Println("PostCustomer:\n", resp)
 			})
 		})
 
@@ -106,7 +109,16 @@ var _ = Describe("CustomerController", func() {
 				w := httptest.NewRecorder()
 				r.ServeHTTP(w, req)
 				Expect(w.Code).To(Equal(202))
+				var resp response
+				json.Unmarshal(w.Body.Bytes(), &resp)
+				fmt.Println("UpdateCustomer:\n", resp)
 			})
+		})
+	})
+
+	Describe("Delete a Customer for given id", func() {
+		Context("Provide a valid customer id to delete", func() {
+
 		})
 	})
 
@@ -124,7 +136,7 @@ var _ = Describe("CustomerController", func() {
 				Expect(len(customers)).To(Equal(0))
 				var resp response
 				json.Unmarshal(w.Body.Bytes(), &resp)
-				fmt.Println(resp)
+				//fmt.Println(resp)
 			})
 		})
 	})
@@ -164,20 +176,18 @@ func (custStore *FakeCustomerStore) Create(customer domain.Customer) error {
 }
 
 func (custStore *FakeCustomerStore) Delete(Id string) error {
-
+	// for _, cust := range custStore.customerStore {
+	// 	err := delete(custStore.customerStore.(map(string)domain.Customer{}), Id)
+	// }
 	return nil
 }
 
 func (custStore *FakeCustomerStore) Update(Id string, customer domain.Customer) error {
-	fmt.Println("update - getting called")
 	for n, cust := range custStore.customerStore {
-
 		if cust.ID == Id {
 			custStore.customerStore[n] = customer
-			//fmt.Println(custStore.customerStore)
-			return nil
+			continue
 		}
-
 	}
 	fmt.Println(custStore.customerStore)
 	return nil

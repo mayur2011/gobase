@@ -46,6 +46,7 @@ func (ms *MapStore) GetCustomerById(id string) (domain.Customer, error) {
 }
 
 func (ms *MapStore) Update(id string, customer domain.Customer) error {
+	//fmt.Println("update:Store - getting called")
 	if ms.isCustomerExists(id) {
 		ms.store[id] = customer
 		fmt.Println("Customer has been updated")
